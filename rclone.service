@@ -1,0 +1,36 @@
+[Unit]
+Description=RClone Service
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=notify
+Environment=RCLONE_CONFIG=/storage/rclone/rclone.conf
+ExecStart=/storage/rclone/rclone mount nat189: /storage/mount/nat189 \
+--allow-other \
+--dir-cache-time 1000h \
+--log-level INFO \
+--log-file /tmp/rclone_mount.log \
+--poll-interval 15s \
+--uid 1000 \
+--gid 1000 \
+--dir-perms 0777 \
+--file-perms 0777 \
+--umask 000 \
+--user-agent neunghaha28app \
+--rc \
+--rc-serve \
+--rc-no-auth \
+--rc-addr 127.0.0.1:5572 \
+--buffer-size 128M \
+--max-read-ahead 128k \
+--vfs-read-chunk-size 128M \
+--vfs-read-chunk-size-limit 256M \
+--use-mmap \
+--async-read=true
+
+ExecStop=/bin/fusermount -uz /mnt/mount/nat189
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
