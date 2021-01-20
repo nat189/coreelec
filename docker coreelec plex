@@ -1,0 +1,30 @@
+docker run -d \
+  --name=plex \
+  --net=host \
+  -e VERSION=docker \
+  -v /var/media/sda1-usb-KINGSTON_SV300S3/docker/Plex:/config \
+  -v /storage/hdd10tb:/volume2/hdd10tb \
+  -v /storage/hdd8tb:/volume3/hdd8tb \
+  -v /var/media/sda1-usb-KINGSTON_SV300S3/ssd:/volume1/hdd/mount \
+  -v /var/media/sda1-usb-KINGSTON_SV300S3/transcode:/transcode \
+  --device=/dev/video10:/dev/video10 \
+  --device=/dev/video23:/dev/video23 \
+  --restart unless-stopped \
+  ghcr.io/linuxserver/plex:latest
+  
+  docker run -d \
+  --name=emby \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e TZ=Asia/Bangkok \
+  -e UMASK_SET=022 \
+  -p 8097:8096 \
+  -p 8921:8920 \
+  -v /storage/docker/emby:/config \
+  -v /storage:/storage \
+  -v /var/media/sda1-usb-KINGSTON_SV300S3/ssd/mount:/var/media/sda1-usb-KINGSTON_SV300S3/ssd/mount \
+  -v /storage/docker/transcode:/transcode \
+  --device=/dev/video10:/dev/video10 \
+  --device=/dev/video23:/dev/video23 \
+  --restart unless-stopped \
+  ghcr.io/linuxserver/emby:beta
