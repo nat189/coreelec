@@ -10,4 +10,4 @@ docker run -d \
     -v /storage/hdd10tb:/volume2/hdd10tb \
     -v /storage/hdd8tb:/volume3/hdd8tb \
     -v /var/media/sda1-usb-KINGSTON_SV300S3/ssd:/volume1/hdd/mount \
-    linuxserver/sonarr-preview
+    linuxserver/sonarr:preview
