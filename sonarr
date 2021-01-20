@@ -1,0 +1,13 @@
+docker run -d \
+    --name=sonarr \
+    -e PUID=1000 \
+    -e PGID=1000 \
+    -e TZ=Asia/Bangkok \
+    -e UMASK_SET=022 \
+    -p 8899:8989 \
+    -v /etc/localtime:/etc/localtime:ro \
+    -v /var/media/sda1-usb-KINGSTON_SV300S3/docker/sonarr:/config \
+    -v /storage/hdd10tb:/volume2/hdd10tb \
+    -v /storage/hdd8tb:/volume3/hdd8tb \
+    -v /var/media/sda1-usb-KINGSTON_SV300S3/ssd:/volume1/hdd/mount \
+    linuxserver/sonarr-preview
