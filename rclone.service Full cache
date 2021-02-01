@@ -1,0 +1,35 @@
+# nano /storage/.config/system.d/rclone.service
+
+[Unit]
+Description=RClone Service
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=notify
+Environment=RCLONE_CONFIG=/storage/rclone/rclone.conf
+ExecStart=/storage/rclone/rclone mount nat189: /var/media/sda1-usb-KINGSTON_SV300S3/mount/nat189 \
+--allow-other \
+--dir-cache-time 1000h \
+--log-level INFO \
+--log-file /tmp/rclone_mount.log \
+--poll-interval 15s \
+--uid 1000 \
+--gid 1000 \
+--dir-perms 0777 \
+--file-perms 0777 \
+--umask 000 \
+--user-agent coreelec \
+--cache-dir=/var/media/sda1-usb-KINGSTON_SV300S3/cache \
+--vfs-cache-mode full \
+--vfs-cache-max-size 4G \
+--vfs-cache-max-age 0m \
+--use-mmap \
+
+
+
+ExecStop=/bin/fusermount -uz /var/media/sda1-usb-KINGSTON_SV300S3/mount/nat189
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
