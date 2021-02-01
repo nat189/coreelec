@@ -25,8 +25,15 @@ ExecStart=/storage/rclone/rclone mount nat189: /var/media/sda1-usb-KINGSTON_SV30
 --vfs-cache-max-size 4G \
 --vfs-cache-max-age 0m \
 --use-mmap \
-
-
+--rc \
+--rc-serve \
+--rc-no-auth \
+--rc-addr 127.0.0.1:5572 \
+--async-read=true
+ExecStartPost=/storage/rclone/rclone rc mount/mount fs=drive8: mountPoint=/var/media/sda1-usb-KINGSTON_SV300S3/mount/drive8 mountType=mount
+ExecStartPost=/storage/rclone/rclone rc mount/mount fs=nas2: mountPoint=/var/media/sda1-usb-KINGSTON_SV300S3/mount/nas2 mountType=mount
+ExecStartPost=/storage/rclone/rclone rc vfs/refresh recursive=true --rc-addr 127.0.0.1:5572 _async=true
+ExecStop=/storage/rclone/rclone rc mount/unmountall
 
 ExecStop=/bin/fusermount -uz /var/media/sda1-usb-KINGSTON_SV300S3/mount/nat189
 Restart=on-failure
